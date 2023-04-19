@@ -1,21 +1,29 @@
 #include <iostream>
-#include <string>
 #include <stdlib.h>
 #include <ctime>
+#include <string>
 
 using namespace std;
 
-int arrBoard[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
+int arrBoard[3][3] = { {96, 2, 3}, {4, 96, 6}, {7, 8, 96} };
+int gamerOrPcGame;
+string cinText;
 
 void board();
 void testVin();
+void gamerOrPc();
 
 int main () {
+	setlocale(LC_ALL, "RU");
 	srand(time(0));
 
-	board();
+	gamerOrPc();
+
+	//board();
 
 	//cout << "Hello World" << endl;
+
+	//int res = stoi(inp);
 
 	return 0;
 }
@@ -65,3 +73,15 @@ void testVin() {
 	}
 }
 
+void gamerOrPc() {
+	system("CLS");
+	cout << "1 --- (gamer and gamer)\n2 --- (game and pc)\n3 --- (pc and pc)" << endl;
+	cout << "Выберите вариант: ";
+	cin >> cinText;
+	if (cinText == "1" || cinText == "2" || cinText == "3") {
+		gamerOrPcGame = stoi(cinText);
+	}
+	else {
+		gamerOrPc();
+	}
+}
