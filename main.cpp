@@ -23,7 +23,9 @@ int main () {
 	setlocale(LC_ALL, "RU");
 	srand(time(0));
 
-	gamerOrPc();
+	//stoi(cinText);
+	
+	//gamerOrPc();
 
 	//cout << "Hello World" << endl;
 
@@ -96,16 +98,12 @@ void gamerOrPc () {
 	cout << "1 --- (gamer and gamer)\n2 --- (game and pc)\n3 --- (pc and pc)" << endl;
 	cout << "Выберите вариант: ";
 	cin >> cinTextInt;
-	if (cinTextInt != 0) {
-		if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
-			gamerOrPcGame = cinTextInt;
-			nameGamerAndPc();
-		}
-		else {
-			cinTextInt = 0;
-			gamerOrPc();
-		}
-	}	
+	if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
+		nameGamerAndPc();
+	}
+	else {
+		gamerOrPc();
+	}
 }
 
 void nameGamerAndPc () {
@@ -144,7 +142,6 @@ void selPcLevel () {
 			board();
 		}
 		else {
-			cinTextInt = 0;
 			selPcLevel();
 		}
 	}
@@ -155,7 +152,6 @@ void selPcLevel () {
 			cout << "Уровень - " << name_one << " - " << pc_one_level << endl;
 		}
 		else {
-			cinTextInt = 0;
 			selPcLevel();
 		}
 
@@ -165,7 +161,6 @@ void selPcLevel () {
 			cout << "Уровень - " << name_two << " - " << pc_two_level << endl;
 		}
 		else {
-			cinTextInt = 0;
 			selPcLevel();
 		}
 	}
@@ -183,7 +178,6 @@ void setNumGame () {
 		}
 		else {
 			cout << "Введена кракозябра" << endl;
-			cinTextInt = 0;
 			setNumGame();
 		}
 
