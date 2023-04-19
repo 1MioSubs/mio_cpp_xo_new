@@ -97,8 +97,9 @@ void gamerOrPc () {
 	system("CLS");
 	cout << "1 --- (gamer and gamer)\n2 --- (game and pc)\n3 --- (pc and pc)" << endl;
 	cout << "Выберите вариант: ";
-	cin >> cinTextInt;
-	if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
+	cin >> cinText;
+	if (cinText == "1" || cinText == "2" || cinText == "3") {
+		gamerOrPcGame = stoi(cinText);
 		nameGamerAndPc();
 	}
 	else {
