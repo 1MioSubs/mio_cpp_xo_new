@@ -6,8 +6,9 @@
 using namespace std;
 
 int arrBoard[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
-int gamerOrPcGame = 0;
+int gamerOrPcGame = 0, num_pc_game = 0, visual_game = 1;
 string cinText = "";
+int cinTextInt = 0;
 string name_one = "", name_two = "";
 int pc_one_level = 0, pc_two_level = 0, pc_main_level = 0;
 
@@ -16,6 +17,7 @@ void testVin ();
 void gamerOrPc ();
 void nameGamerAndPc();
 void selPcLevel();
+void setNumGame();
 
 int main () {
 	setlocale(LC_ALL, "RU");
@@ -37,18 +39,24 @@ void board () {
 		cout << name_one << " - Против - " << name_two << " - Сложность - " << pc_main_level << endl;
 	}
 	else if (gamerOrPcGame == 3) {
-		cout << name_one << " - МОШЬ - " << pc_one_level << " - Против - " << name_two << " - МОШЬ - " << pc_two_level << endl;
+		cout << name_one << " - МОШЬ - "; 
+		cout << pc_one_level << " - Против - ";
+		cout << name_two << " - МОШЬ - ";
+		cout << pc_two_level << " - Осталось игр - ";
+		cout << num_pc_game << endl;
 	}
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			if (j == 0) cout << '\t';
+	if (visual_game == 1) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (j == 0) cout << '\t';
 
-			if (arrBoard[i][j] == 96) cout << 'X';
-			else if (arrBoard[i][j] == 00) cout << 'O';
-			else cout << arrBoard[i][j];
+				if (arrBoard[i][j] == 96) cout << 'X';
+				else if (arrBoard[i][j] == 00) cout << 'O';
+				else cout << arrBoard[i][j];
 
-			if (j == 2) cout << endl;
-			else if (j != 2) cout << '-';
+				if (j == 2) cout << endl;
+				else if (j != 2) cout << '-';
+			}
 		}
 	}
 	testVin();
@@ -87,14 +95,17 @@ void gamerOrPc () {
 	system("CLS");
 	cout << "1 --- (gamer and gamer)\n2 --- (game and pc)\n3 --- (pc and pc)" << endl;
 	cout << "Выберите вариант: ";
-	cin >> cinText;
-	if (cinText == "1" || cinText == "2" || cinText == "3") {
-		gamerOrPcGame = stoi(cinText);
-		nameGamerAndPc();
-	}
-	else {
-		gamerOrPc();
-	}
+	cin >> cinTextInt;
+	if (cinTextInt != 0) {
+		if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
+			gamerOrPcGame = cinTextInt;
+			nameGamerAndPc();
+		}
+		else {
+			cinTextInt = 0;
+			gamerOrPc();
+		}
+	}	
 }
 
 void nameGamerAndPc () {
@@ -104,6 +115,7 @@ void nameGamerAndPc () {
 		cout << "name gamer 2 --- ";
 		cin >> name_two;
 		cout << name_one << " - Против - " << name_two << endl;
+		visual_game = 1;
 		board();
 	}
 	else if (gamerOrPcGame == 2) {
@@ -111,12 +123,14 @@ void nameGamerAndPc () {
 		cin >> name_one;
 		name_two = "PC";
 		cout << name_one << " - Против - " << name_two << endl;
+		visual_game = 1;
 		selPcLevel();
 	}
 	else if (gamerOrPcGame == 3) {
 		name_one = "PC-1";
 		name_two = "PC-2";
 		cout << name_one << " - Против - " << name_two << endl;
+		visual_game = 1;
 		selPcLevel();
 	}
 }
@@ -124,35 +138,54 @@ void nameGamerAndPc () {
 void selPcLevel () {
 	if (gamerOrPcGame == 2) {
 		cout << "Выбирете уровень сожности от 1 до 3: ";
-		cin >> cinText;
-		if (cinText == "1" || cinText == "2" || cinText == "3") {
-			pc_main_level = stoi(cinText);
+		cin >> cinTextInt;
+		if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
 			cout << "Уровень - " << name_two << " - " << pc_main_level << endl;
+			board();
 		}
 		else {
+			cinTextInt = 0;
 			selPcLevel();
 		}
 	}
 	else if (gamerOrPcGame == 3) {
 		cout << "Выбирете уровень сожности PC-1 от 1 до 3: ";
-		cin >> cinText;
-		if (cinText == "1" || cinText == "2" || cinText == "3") {
-			pc_one_level = stoi(cinText);
+		cin >> cinTextInt;
+		if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
 			cout << "Уровень - " << name_one << " - " << pc_one_level << endl;
 		}
 		else {
+			cinTextInt = 0;
 			selPcLevel();
 		}
 
 		cout << "Выбирете уровень сожности PC-2 от 1 до 3: ";
-		cin >> cinText;
-		if (cinText == "1" || cinText == "2" || cinText == "3") {
-			pc_two_level = stoi(cinText);
+		cin >> cinTextInt;
+		if (cinTextInt == 1 || cinTextInt == 2 || cinTextInt == 3) {
 			cout << "Уровень - " << name_two << " - " << pc_two_level << endl;
 		}
 		else {
+			cinTextInt = 0;
 			selPcLevel();
 		}
 	}
-	board();
+}
+
+void setNumGame () {
+	if (gamerOrPcGame == 2) {
+		cout << "Введите количество игр для пк/пк(Целое число): ";
+		cin >> cinTextInt;
+		if (!cin.fail()) {
+			cout << "Введено целое число: " << cinTextInt << endl;
+			num_pc_game = cinTextInt;
+			visual_game = 0;
+			board();
+		}
+		else {
+			cout << "Введена кракозябра" << endl;
+			cinTextInt = 0;
+			setNumGame();
+		}
+
+	}
 }
