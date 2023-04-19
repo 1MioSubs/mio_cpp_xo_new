@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int arrBoard[3][3] = { {96, 2, 3}, {4, 96, 6}, {7, 8, 96} };
+int arrBoard[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
 int gamerOrPcGame;
 string cinText;
 
@@ -19,11 +19,7 @@ int main () {
 
 	gamerOrPc();
 
-	//board();
-
 	//cout << "Hello World" << endl;
-
-	//int res = stoi(inp);
 
 	return 0;
 }
