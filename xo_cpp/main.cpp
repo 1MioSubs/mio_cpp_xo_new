@@ -5,6 +5,13 @@
 
 using namespace std;
 
+void gamerOrPc();
+void nameGamerAndPc();
+void board();
+void testVin();
+void gameStepSet();
+void nextFuncGame();
+
 int main () {
 	srand(time(0));
 	string text_in, mes;
