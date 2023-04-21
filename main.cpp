@@ -8,10 +8,10 @@ using namespace std;
 int arrBoard[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
 int gamerOrPcGame = 0, num_pc_game = 0, visual_game = 1;
 string cinText = "";
-int cinTextInt = 0;
+int cinTextInt = 0, cinConvertToInt = 0;
 string name_one = "", name_two = "";
 int pc_one_level = 0, pc_two_level = 0, pc_main_level = 0;
-int len_game = 0, game_play = 2;
+int len_game = 0, game_play = 1;
 int x = 1, o = 2;
 
 void board ();
@@ -21,10 +21,12 @@ void nameGamerAndPc();
 void selPcLevel();
 void setNumGame();
 void setVisualBoard();
-void setGamerStep(int);
+void setStep(int, int);
+void setGamerStep(int, int);
 void gamerStep();
 void pcStep();
 void endGame(int);
+void testBreak();
 
 int main () {
 	setlocale(LC_ALL, "Russian");
@@ -39,21 +41,28 @@ int main () {
 
 void board () {
 //	system("CLS");
+	len_game++;
 	if (gamerOrPcGame == 1) {
 		cout << name_one << " - Против - ";
-		cout << name_two << endl;
+		cout << name_two << " - Игра номер - ";
+		cout << game_play << " - ход номер - ";
+		cout << len_game << endl;
 	}
 	else if (gamerOrPcGame == 2) {
 		cout << name_one << " - Против - ";
 		cout << name_two << " - Сложность - ";
-		cout << pc_main_level << endl;
+		cout << pc_main_level << " - Игра номер - ";
+		cout << game_play << " - ход номер - ";
+		cout << len_game << endl;
 	}
 	else if (gamerOrPcGame == 3) {
 		cout << name_one << " - МОШЬ - "; 
 		cout << pc_one_level << " - Против - ";
 		cout << name_two << " - МОШЬ - ";
 		cout << pc_two_level << " - Осталось игр - ";
-		cout << num_pc_game << endl;
+		cout << num_pc_game << " - Игра номер - ";
+		cout << game_play << " - ход номер - ";
+		cout << len_game << endl;
 	}
 	if (visual_game == 1) {
 		for (int i = 0; i < 3; i++) {
@@ -73,7 +82,6 @@ void board () {
 }
 
 void testVin () {
-	len_game++;
 	if (
 		arrBoard[0][0] == 96 && arrBoard[1][1] == 96 && arrBoard[2][2] == 96 ||
 		arrBoard[0][2] == 96 && arrBoard[1][1] == 96 && arrBoard[2][0] == 96 ||
@@ -100,11 +108,11 @@ void testVin () {
 	{
 		endGame(o);
 	} 
-	else if (len_game == 10) {
+	else if (len_game > 9) {
 		endGame(3);	
 	}
 	else {
-		cout << "Продолжаем игру дальше и выясняем чей ход";
+		cout << "Продолжаем игру дальше и выясняем чей ход" << endl;
 		gamerStep();	
 	}
 }
@@ -131,7 +139,7 @@ void nameGamerAndPc () {
 		cin >> name_one;
 		cout << "name gamer 2 --- ";
 		cin >> name_two;
-		cout << name_one << " - Против - " << name_two << endl;
+		//cout << name_one << " - Против - " << name_two << endl;
 		visual_game = 1;
 		board();
 	}
@@ -139,14 +147,14 @@ void nameGamerAndPc () {
 		cout << "name gamer 1 --- ";
 		cin >> name_one;
 		name_two = "PC";
-		cout << name_one << " - Против - " << name_two << endl;
+		//cout << name_one << " - Против - " << name_two << endl;
 		visual_game = 1;
 		selPcLevel();
 	}
 	else if (gamerOrPcGame == 3) {
 		name_one = "PC-1";
 		name_two = "PC-2";
-		cout << name_one << " - Против - " << name_two << endl;
+		//cout << name_one << " - Против - " << name_two << endl;
 		visual_game = 1;
 		selPcLevel();
 	}
@@ -221,27 +229,62 @@ void setVisualBoard () {
 
 }
 
-void setGamerStep (int g) {
-	cout << "test stop func - " << g << endl;
+void setStep (int g, int step) {
+	
 }
-//name_one = "", name_two = "";
+
+void setGamerStep (int g, int pcOrUser) {
+	if (name_one == "PC" && pcOrUser == 1) {
+		cout << "test pc 1" << endl;
+		testBreak();
+	} else if (name_two == "PC" && pcOrUser == 2) {
+		cout << "test pc 2" << endl;
+		testBreak();
+	} else {
+		cout << "Ваш ход от (1 - 9) - ";
+		cin >> cinText;
+		cinConvertToInt = stoi(cinText);
+		if (0 < cinConvertToInt < 10) {
+			if (arrBoard[0][0] == cinConvertToInt) arrBoard[0][0] = g;
+			else if (arrBoard[0][1] == cinConvertToInt) arrBoard[0][1] = g;
+			else if (arrBoard[0][2] == cinConvertToInt) arrBoard[0][2] = g;
+			else if (arrBoard[1][0] == cinConvertToInt) arrBoard[1][0] = g;
+			else if (arrBoard[1][1] == cinConvertToInt) arrBoard[1][1] = g;
+			else if (arrBoard[1][2] == cinConvertToInt) arrBoard[1][2] = g;
+			else if (arrBoard[2][0] == cinConvertToInt) arrBoard[2][0] = g;
+			else if (arrBoard[2][1] == cinConvertToInt) arrBoard[2][1] = g;
+			else if (arrBoard[2][2] == cinConvertToInt) arrBoard[2][2] = g;
+			else {
+				cout << "Такая клетка уже занята или не существует. Попробуйте еще раз: " << endl;
+				setGamerStep(g, pcOrUser);
+			}
+			board();
+		}
+		else {
+			setGamerStep(g, pcOrUser);
+		}
+	}
+}
+
 void gamerStep () {
 	if (len_game%2 == 1) {
-		setGamerStep(96);
 		if (game_play%2 == 1) {
 			cout << "Ход игрока - " << name_one << endl;
+			setGamerStep(96, 1);
 		}
 		else {
 			cout << "Ход игрока - " << name_two << endl;
+			setGamerStep(96, 2);
 		}
 	} 
 	else {
-		setGamerStep(00);
 		if (game_play%2 == 0) {
 			cout << "Ход игрока - " << name_one << endl;
+			setGamerStep(00, 1);
 		}
 		else {
 			cout << "Ход игрока - " << name_two << endl;
+			setGamerStep(00, 2);
 		}
 	}	
 }
@@ -249,17 +292,19 @@ void gamerStep () {
 void endGame (int vin) {
 	game_play++;
 	if (vin == 1) {
-		cout << "X";	
+		cout << "Победили - X";	
 	} 
 	else if (vin == 2) {
-		cout << "O";
+		cout << "Победили - O";
 	} 
 	else {
 		cout << "ничья";
 	}
 }
 
-
+void testBreak () {
+	cout << "test break stop func =)" << endl;
+}
 
 
 
