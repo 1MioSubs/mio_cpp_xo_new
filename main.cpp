@@ -11,6 +11,8 @@ string cinText = "";
 int cinTextInt = 0;
 string name_one = "", name_two = "";
 int pc_one_level = 0, pc_two_level = 0, pc_main_level = 0;
+int len_game = 0, game_play = 2;
+int x = 1, o = 2;
 
 void board ();
 void testVin ();
@@ -19,9 +21,13 @@ void nameGamerAndPc();
 void selPcLevel();
 void setNumGame();
 void setVisualBoard();
+void setGamerStep(int);
+void gamerStep();
+void pcStep();
+void endGame(int);
 
 int main () {
-	setlocale(LC_ALL, "RU");
+	setlocale(LC_ALL, "Russian");
 	srand(time(0));
 	
 	gamerOrPc();
@@ -32,7 +38,7 @@ int main () {
 }
 
 void board () {
-	system("CLS");
+//	system("CLS");
 	if (gamerOrPcGame == 1) {
 		cout << name_one << " - Против - ";
 		cout << name_two << endl;
@@ -67,6 +73,7 @@ void board () {
 }
 
 void testVin () {
+	len_game++;
 	if (
 		arrBoard[0][0] == 96 && arrBoard[1][1] == 96 && arrBoard[2][2] == 96 ||
 		arrBoard[0][2] == 96 && arrBoard[1][1] == 96 && arrBoard[2][0] == 96 ||
@@ -78,7 +85,7 @@ void testVin () {
 		arrBoard[0][2] == 96 && arrBoard[1][2] == 96 && arrBoard[2][2] == 96
 		)
 	{
-		cout << 'X';
+		endGame(x);
 	}
 	else if (
 		arrBoard[0][0] == 00 && arrBoard[1][1] == 00 && arrBoard[2][2] == 00 ||
@@ -91,7 +98,14 @@ void testVin () {
 		arrBoard[0][2] == 00 && arrBoard[1][2] == 00 && arrBoard[2][2] == 00
 		)
 	{
-		cout << 'O';
+		endGame(o);
+	} 
+	else if (len_game == 10) {
+		endGame(3);	
+	}
+	else {
+		cout << "Продолжаем игру дальше и выясняем чей ход";
+		gamerStep();	
 	}
 }
 
@@ -101,7 +115,7 @@ void gamerOrPc () {
 	cout << "Выберите вариант: " << endl;
 	cin >> cinText;
 	if (cinText == "1" || cinText == "2" || cinText == "3") {
-		gamerOrPcGame = stoi(cinText);
+		gamerOrPcGame = 1;//stoi(cinText);
 		nameGamerAndPc();
 		//cout << gamerOrPcGame;
 		//gamerOrPc();
@@ -198,11 +212,69 @@ void setVisualBoard () {
 			board();
 		}
 		else {
-			setNumGame();
+			setVisualBoard();
 		}
 	}
 	else {
-		setNumGame();
+		setVisualBoard();
 	}
 
 }
+
+void setGamerStep (int g) {
+	cout << "test stop func - " << g << endl;
+}
+//name_one = "", name_two = "";
+void gamerStep () {
+	if (len_game%2 == 1) {
+		setGamerStep(96);
+		if (game_play%2 == 1) {
+			cout << "Ход игрока - " << name_one << endl;
+		}
+		else {
+			cout << "Ход игрока - " << name_two << endl;
+		}
+	} 
+	else {
+		setGamerStep(00);
+		if (game_play%2 == 0) {
+			cout << "Ход игрока - " << name_one << endl;
+		}
+		else {
+			cout << "Ход игрока - " << name_two << endl;
+		}
+	}	
+}
+
+void endGame (int vin) {
+	game_play++;
+	if (vin == 1) {
+		cout << "X";	
+	} 
+	else if (vin == 2) {
+		cout << "O";
+	} 
+	else {
+		cout << "ничья";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
